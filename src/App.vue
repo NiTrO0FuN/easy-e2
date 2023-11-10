@@ -5,17 +5,20 @@
       <q-toolbar-title>Easy E2</q-toolbar-title>
       <q-select filled popup-content-class="qselectpopup" dark style="margin:2px 15px;font-size:large;text-transform: uppercase;"
       bg-color="primary" color="blue" v-model="$i18n.locale" :options="$i18n.availableLocales"/>
-      <q-btn flat round dense icon="whatshot" />
+      <whats-hot/>
     </q-toolbar>
     <router-view/>
   </div>
 </template>
 
 <script>
+import WhatsHot from './components/WhatsHot.vue';
+
 
 
   export default {
     name: "App",
+    components: { WhatsHot }
 }
 </script>
 
