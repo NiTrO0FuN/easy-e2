@@ -1,5 +1,10 @@
 export default {
     en: {
+        features : {
+            new: "New",
+            f1: "Shape editor",
+            f2: "Change shape order",
+        },
         code_shower: {
             generated_code: "Generated code",
             copied: "Code copied to clipboard",
@@ -26,6 +31,11 @@ export default {
         fill: "Fill",
     },
     fr: {
+        features : {
+            new: "Nouveau",
+            f1: "Editeur de formes",
+            f2: "Changer l'ordre des objects",
+        },
         code_shower: {
             generated_code: "Code généré",
             copied: "Code copié dans le presse-papiers",
