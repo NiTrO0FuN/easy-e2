@@ -12,7 +12,7 @@
   <script>
   
   import CodeShower from '@/components/CodeShower.vue';
-  import CreationZone from '@/components/EGPCreation/CreationZone.vue';
+  import CreationZone from '@/components/CreationZone.vue';
   
     export default {
       name: "App",

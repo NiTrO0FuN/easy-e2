@@ -11,7 +11,11 @@ export default {
             triangle: "Triangle",
         },
         editor: {
-            moveshift: "You can press SHIFT while moving the shape to snap it to grid."
+            moveshift: "You can press SHIFT while moving the shape to snap it to grid.",
+            bringtofront: "Bring to front",
+            bringforward: "Bring forward",
+            sendbackwards: "Send backward",
+            sendtoback: "Send to back",
         },
         position: "Position",
         size: "Size",
@@ -33,7 +37,11 @@ export default {
             triangle: "Triangle",
         },
         editor: {
-            moveshift: "Vous pouvez appuyer sur SHIFT tout en déplaçant l'objet pour l'aligner sur la grille."
+            moveshift: "Vous pouvez appuyer sur SHIFT tout en déplaçant l'objet pour l'aligner sur la grille.",
+            bringtofront: "Mettre au premier plan",
+            bringforward: "Avancer",
+            sendbackwards: "Reculer",
+            sendtoback: "Envoyer à l'arrière plan",
         },
         position: "Position",
         size: "Taille",

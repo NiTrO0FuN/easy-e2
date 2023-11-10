@@ -10,7 +10,7 @@
     import { reactive } from 'vue'
 
     export default {
-        name:"Canva",
+        name:"CanvaVue",
         emits: ["shape-selected","object-list-updated"],
         mounted () {
             this.canvas = new fabric.Canvas('egp',
