@@ -46,6 +46,7 @@ export default {
             } else if (command=="sendtoback") {
                 this.$refs.canva.canvas.sendToBack(this.selectedShape)
             }
+            this.refreshCode(this.$refs.canva.canvas.getObjects())
         },
         refreshCanva() {
             this.$refs.canva.refreshCanva()
