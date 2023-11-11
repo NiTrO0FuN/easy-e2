@@ -19,6 +19,16 @@
             <q-input dark debounce="200" filled v-model.number="rx" type="number" label="Rx" @update:model-value="this.$emit('change-selected')"/>
             <q-input dark debounce="200" filled v-model.number="ry" type="number" label="Ry" @update:model-value="this.$emit('change-selected')"/>
         </div>
+        <q-separator v-if="isPoly" dark inset spaced />
+        <div v-if="isPoly" class="row items-center justify-between text-white">
+            {{$t("points")}}
+            <q-scroll-area dark class="col-grow q-ml-lg" style="height: 75px">
+                <div v-for="point in shape.points" class="row justify-around point-detail">
+                    <q-input dark debounce="200" style="width: auto;" filled v-model.number="point.x" type="number" label="X" @update:model-value="this.$emit('change-selected', true)"/>
+                    <q-input dark debounce="200" style="width: auto;" filled v-model.number="point.y" type="number" label="Y" @update:model-value="this.$emit('change-selected', true)"/>
+                </div>
+            </q-scroll-area>
+        </div>
         <q-separator dark inset spaced />
         <div class="row items-center justify-between text-white">
             {{$t("color")}}
@@ -52,6 +62,9 @@ export default {
         },
         hasRadius() {
             return this.shape.type == "ellipse" 
+        },
+        isPoly() {
+            return this.shape.type == "polygon"
         },
         fillColor: {
             get () {
@@ -125,5 +138,9 @@ export default {
     background-color: rgba(45, 45, 45,0.8);
     border-radius: 10px;
     padding: 10px;
+}
+
+.point-detail:not(:last-child) {
+    margin-bottom: 10px;
 }
 </style>
