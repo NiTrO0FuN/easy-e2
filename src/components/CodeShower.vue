@@ -82,14 +82,20 @@ if(first() | duped() | dupefinished()) {
             } else if (shape.type == "ellipse") { // Circle
               text+=`
     EGP:egpCircle${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.rx},${shape.ry}))`
-            }
-            else if (shape.type == "polygon") { // Polygon
+            } else if (shape.type == "polygon") { // Polygon
               text+=`
     EGP:egpPoly(${i+1}`
                 shape.points.forEach(point => {
                   text+=`, vec2(${shape.left + point.x},${shape.top + point.y})`
                 });
                 text+=")"
+            } else if (shape.type == "i-text") {
+              text+=`
+    EGP:egpText(${i+1},"${shape.text}",vec2(${shape.left},${shape.top}))`
+              if (shape.originX!="left" || shape.originY!="top") {
+                text+=`
+    EGP:egpAlign(${i+1},${shape.originX=="left"?0:shape.originX=="center"?1:2},${shape.originY=="top"?0:shape.originY=="center"?1:2})`
+              }
             }
             
             //Color

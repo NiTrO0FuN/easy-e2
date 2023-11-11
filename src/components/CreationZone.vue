@@ -1,7 +1,7 @@
 <template>
     <div class="column">
         <div class="row">
-            <ShapeOrder v-if="selectedShape" @move="moveSelectedShape"/>
+            <ShapeOrder v-if="selectedShape" @move="moveSelectedShape" @unselect-shape="deselectShape"/>
             <CanvaVue ref="canva" @shape-selected="selectShape" @object-list-updated="refreshCode"/>
             <ShapeCreator :selectedShape="selectedShape" @add-shape="addShape" @remove-shape="removeSelectedShape"/>
         </div>
@@ -27,8 +27,11 @@ export default {
             this.$refs.canva.addObject(shape.type)
         },
         selectShape(shape) {
-            let self = this
-            self.selectedShape=shape
+            this.selectedShape=shape
+        },
+        deselectShape() {
+            this.$refs.canva.canvas.discardActiveObject()
+            this.refreshCanva()
         },
         removeSelectedShape() {
             if(!this.selectedShape){return}

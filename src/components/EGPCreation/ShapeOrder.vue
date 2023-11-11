@@ -4,6 +4,9 @@
             <q-btn v-for="button in buttons" round color="positive" :icon="button.icon" @click="this.$emit('move',button.name)">
                 <q-tooltip class="bg-secondary text-body2">{{this.$t("editor."+button.name)}}</q-tooltip>
             </q-btn>
+            <q-btn round color="grey" icon="do_not_touch" @click="this.$emit('unselect-shape')">
+                <q-tooltip class="bg-secondary text-body2">{{this.$t("editor.unselect")}}</q-tooltip>
+            </q-btn>
         </div>
     </div>
 </template>
@@ -18,7 +21,6 @@ export default {
                 {icon: "expand_less", name:"bringforward"},
                 {icon: "expand_more", name:"sendbackwards"},
                 {icon: "flip_to_back", name:"sendtoback"},
-
             ]
         }
     },

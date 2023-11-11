@@ -77,13 +77,21 @@
                     fill:"rgba(255,255,255,1)",filled:true})
                 } else if(objectType=="triangle") {
                     object = new fabric.Polygon([
-                        { x: 70, y: 0 },
-                        { x: 0, y: 120 },
-                        { x: 140, y: 120 },
+                        { x: 70, y: 0},
+                        { x: 0, y: 120},
+                        { x: 140, y: 120},
                         ],{
                         fill:'rgba(255,255,255,1)',filled:true,
                         hasControls: false,
                     })
+                } else if(objectType=="text") {
+                    object = new fabric.IText("EGP", {
+                        top: 0, left:0,
+                        fill: 'rgba(255,255,255,1)',
+                        filled: true,
+                        hasControls: false,
+                        }
+                    )
                 }
                 let self = this
                 object.on("selected", function() {
