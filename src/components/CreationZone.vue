@@ -38,13 +38,13 @@ export default {
         moveSelectedShape(command) {
             if(!this.selectedShape){return}
             if(command=="bringtofront") {
-                this.$refs.canva.canvas.bringToFront(this.selectedShape)
+                this.selectedShape.bringToFront()
             } else if (command=="bringforward") {
-                this.$refs.canva.canvas.bringForward(this.selectedShape)
+                this.selectedShape.bringForward()
             } else if (command=="sendbackwards") {
-                this.$refs.canva.canvas.sendBackwards(this.selectedShape)
+                this.selectedShape.sendBackwards()
             } else if (command=="sendtoback") {
-                this.$refs.canva.canvas.sendToBack(this.selectedShape)
+                this.selectedShape.sendToBack()
             }
             this.refreshCode(this.$refs.canva.canvas.getObjects())
         },
