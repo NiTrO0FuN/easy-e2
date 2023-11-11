@@ -26,7 +26,8 @@
             return {
                 features: [
                     {feature:"f1",isNew:false},
-                    {feature:"f2",isNew:true}
+                    {feature:"f2",isNew:true},
+                    {feature:"f3",isNew:true}
                 ]
             }
         },    

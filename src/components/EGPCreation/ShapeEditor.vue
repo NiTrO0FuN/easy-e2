@@ -29,10 +29,16 @@
                 </div>
             </q-scroll-area>
         </div>
+        <q-separator v-if="isText" dark inset spaced />
+        <div v-if="isText" class="row items-center justify-between text-white">
+            {{$t("alignment")}}
+            <q-option-group v-model="originX" :options="hAlign" color="primary" inline @update:model-value="this.$emit('change-selected')"/>  
+            <q-option-group v-model="originY" :options="vAlign" color="primary" dense @update:model-value="this.$emit('change-selected')"/>  
+        </div>
         <q-separator dark inset spaced />
         <div class="row items-center justify-between text-white">
             {{$t("color")}}
-            <q-toggle v-model="shape.filled" :label="$t('fill')" left-label keep-color :color="shape.fill || shape.stroke"/>
+            <q-toggle v-if="!isText" v-model="shape.filled" :label="$t('fill')" left-label keep-color :color="shape.fill || shape.stroke"/>
             <q-input dark debounce="200" filled hide-bottom-space readonly v-model="fillColor" :label="$t('color')" :rules="['anyColor']" @update:model-value="this.$emit('change-selected')">
                 <template v-slot:append>
                 <q-icon name="colorize" class="cursor-pointer">
@@ -50,6 +56,20 @@
 <script>
 export default {
     name:"ShapeEditor",
+    data() {
+        return {
+            hAlign: [
+                {label:"left",value:"op1"},
+                {label:"center",value:"op2"},
+                {label:"right",value:"op3"},
+            ],
+            vAlign: [
+                {label:"top",value:"op1"},
+                {label:"center",value:"op2"},
+                {label:"bottom",value:"op3"},
+            ],
+        }
+    },
     props: {
         shape: {
             type: Object,
@@ -65,6 +85,9 @@ export default {
         },
         isPoly() {
             return this.shape.type == "polygon"
+        },
+        isText() {
+            return this.shape.type == "i-text"
         },
         fillColor: {
             get () {
@@ -129,6 +152,26 @@ export default {
                 this.shape.set("ry",value)
             }
         },
+        originX: {
+            get () {
+                let oX = this.shape.originX
+                return oX == "left" ? "op1" : oX == "center" ? "op2" : "op3"
+            },
+            set (value) {
+                if(!this.shape){return}
+                this.shape.set("originX",value == "op1" ? "left" : value == "op2" ? "center" : "right")
+            }
+        }, 
+        originY: {
+            get () {
+                let oY = this.shape.originY
+                return oY == "top" ? "op1" : oY == "center" ? "op2" : "op3"
+            },
+            set (value) {
+                if(!this.shape){return}
+                this.shape.set("originY",value == "op1" ? "top" : value == "op2" ? "center" : "bottom")
+            }
+        }, 
     },
 }
 </script>
