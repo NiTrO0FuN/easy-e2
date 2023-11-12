@@ -78,10 +78,10 @@ if(first() | duped() | dupefinished()) {
             text+="\n"
             if (shape.type == "rect") { // Box
               text+=`
-    EGP:egpBox${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.width},${shape.height}))`
+    EGP:egpBox${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.width+(!shape.filled?shape.strokeWidth:0)},${shape.height+(!shape.filled?shape.strokeWidth:0)}))`
             } else if (shape.type == "ellipse") { // Circle
               text+=`
-    EGP:egpCircle${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.rx},${shape.ry}))`
+    EGP:egpCircle${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.rx+(!shape.filled?shape.strokeWidth:0)},${shape.ry+(!shape.filled?shape.strokeWidth:0)}))`
             } else if (shape.type == "polygon") { // Polygon
               text+=`
     EGP:egpPoly(${i+1}`
@@ -110,7 +110,14 @@ if(first() | duped() | dupefinished()) {
               text+=`
     EGP:egpAngle(${i+1},${shape.angle})`
             }
+            if(shape.strokeWidth && shape.strokeWidth>1 && !shape.filled) {
+              text+=`
+    EGP:egpSize(${i+1},${shape.strokeWidth})`
+            }
+
           }
+
+            
 
         text +=
 `
@@ -142,7 +149,7 @@ if(first() | duped() | dupefinished()) {
 /* Hide scrollbar for IE, Edge and Firefox */
 .code {
     min-width: 40%;
-    max-height: 80%;
+    max-height: 70%;
     overflow-y: scroll;
     border-radius: 15px !important;
     box-shadow:0px 5px 20px  black !important;

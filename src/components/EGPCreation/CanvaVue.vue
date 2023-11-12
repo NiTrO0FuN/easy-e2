@@ -88,6 +88,7 @@
                         strokeWidth: 3,
                         filled:true,
                         hasControls: false,
+                        objectCaching: false,
                     })
                 } else if(objectType=="text") {
                     object = new fabric.IText("EGP", {
