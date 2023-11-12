@@ -32,8 +32,10 @@
         <q-separator v-if="isText" dark inset spaced />
         <div v-if="isText" class="row items-center justify-between text-white">
             {{$t("alignment")}}
-            <q-option-group v-model="originX" :options="hAlign" color="primary" inline @update:model-value="this.$emit('change-selected')"/>  
-            <q-option-group v-model="originY" :options="vAlign" color="primary" dense @update:model-value="this.$emit('change-selected')"/>  
+            <div class="row justify-around col-grow items-center">
+                <q-option-group class="text-align-wrapper" dark dense v-model="originX" :options="hAlign" color="primary" inline @update:model-value="this.$emit('change-selected')"/>
+                <q-option-group class="text-align-wrapper" dark dense v-model="originY" :options="vAlign" color="primary" @update:model-value="this.$emit('change-selected')"/>
+            </div>
         </div>
         <q-separator dark inset spaced />
         <div class="row items-center justify-between text-white">
@@ -59,14 +61,14 @@ export default {
     data() {
         return {
             hAlign: [
-                {label:"left",value:"op1"},
-                {label:"center",value:"op2"},
-                {label:"right",value:"op3"},
+                {label:"",value:"op1",checkedIcon:"format_align_left",uncheckedIcon:"format_align_left"},
+                {label:"",value:"op2",checkedIcon:"format_align_center",uncheckedIcon:"format_align_center"},
+                {label:"",value:"op3",checkedIcon:"format_align_right",uncheckedIcon:"format_align_right"},
             ],
             vAlign: [
-                {label:"top",value:"op1"},
-                {label:"center",value:"op2"},
-                {label:"bottom",value:"op3"},
+                {label:"",value:"op1",checkedIcon:"vertical_align_top",uncheckedIcon:"vertical_align_top"},
+                {label:"",value:"op2",checkedIcon:"vertical_align_center",uncheckedIcon:"vertical_align_center"},
+                {label:"",value:"op3",checkedIcon:"vertical_align_bottom",uncheckedIcon:"vertical_align_bottom"},
             ],
         }
     },
@@ -185,5 +187,11 @@ export default {
 
 .point-detail:not(:last-child) {
     margin-bottom: 10px;
+}
+
+.text-align-wrapper {
+    padding: 10px;
+    background-color: rgb(65, 78, 92);
+    border-radius: 30px;
 }
 </style>
