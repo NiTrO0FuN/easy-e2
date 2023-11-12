@@ -32,6 +32,7 @@ export default {
         radii: "Radii",
         width: "Width",
         height: "Height",
+        thickness: "Epaisseur",
         color: "Color",
         fill: "Fill",
     },
@@ -68,6 +69,7 @@ export default {
         radii: "Rayons",
         width: "Largeur",
         height: "Hauteur",
+        thickness: "Epaisseur",
         color: "Couleur",
         fill: "Remplir",
     }

@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 100%" class="column no-wrap">
+  <div style="height: 100%" class="column no-wrap">
     <q-toolbar class="bg-secondary shadow-3 text-white">
       <q-icon name="data_object" size="3em"/>
       <q-toolbar-title>Easy E2</q-toolbar-title>
@@ -13,8 +13,6 @@
 
 <script>
 import WhatsHot from './components/WhatsHot.vue';
-
-
 
   export default {
     name: "App",

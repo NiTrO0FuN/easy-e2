@@ -10,7 +10,6 @@
   </template>
   
   <script>
-  
   import CodeShower from '@/components/CodeShower.vue';
   import CreationZone from '@/components/CreationZone.vue';
   

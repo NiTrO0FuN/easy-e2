@@ -29,6 +29,13 @@
                 </div>
             </q-scroll-area>
         </div>
+        <q-separator v-if="!shape.filled && shape.strokeWidth" dark inset spaced />
+        <div v-if="!shape.filled && shape.strokeWidth" class="row items-center justify-between text-white">
+            {{$t("thickness")}}
+            <div class="row col-grow justify-center">
+                <q-slider dark label style="max-width: 350px;" v-model="strokeWidth" :min="1" :max="50" @update:model-value="this.$emit('change-selected')"/>
+            </div>
+        </div>
         <q-separator v-if="isText" dark inset spaced />
         <div v-if="isText" class="row items-center justify-between text-white">
             {{$t("alignment")}}
@@ -41,11 +48,11 @@
         <div class="row items-center justify-between text-white">
             {{$t("color")}}
             <q-toggle v-if="!isText" v-model="shape.filled" :label="$t('fill')" left-label keep-color :color="shape.fill || shape.stroke"/>
-            <q-input dark debounce="200" filled hide-bottom-space readonly v-model="fillColor" :label="$t('color')" :rules="['anyColor']" @update:model-value="this.$emit('change-selected')">
+            <q-input dark debounce="200" filled hide-bottom-space readonly v-model="color" :label="$t('color')" :rules="['anyColor']" @update:model-value="this.$emit('change-selected')">
                 <template v-slot:append>
                 <q-icon name="colorize" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-color dark v-model="fillColor" format-model="rgba" @update:model-value="this.$emit('change-selected')"/>
+                    <q-color dark v-model="color" format-model="rgba" @update:model-value="this.$emit('change-selected')"/>
                     </q-popup-proxy>
                 </q-icon>
                 </template>
@@ -91,7 +98,7 @@ export default {
         isText() {
             return this.shape.type == "i-text"
         },
-        fillColor: {
+        color: {
             get () {
                 return this.shape.filled ? this.shape.fill : this.shape.stroke
             },
@@ -134,6 +141,15 @@ export default {
             set (value) {
                 if(!this.shape){return}
                 this.shape.set("height",value)
+            }
+        },
+        strokeWidth: {
+            get () {
+                return this.shape.strokeWidth
+            },
+            set (value) {
+                if(!this.shape){return}
+                this.shape.set("strokeWidth",value)
             }
         },
         rx: {
