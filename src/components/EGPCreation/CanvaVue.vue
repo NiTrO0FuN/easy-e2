@@ -62,26 +62,31 @@
         },
         methods: {
             addObject(objectType) {
-                if(this.canvas.getObjects().length>=10){return}
+                if(this.canvas.getObjects().length>=300){return}
                 var object
                 if(objectType=="rectangle") {
                     object = new fabric.Rect({
                     top:256,left:256,width:100,height:100, 
                     originX:'center',originY:'center',
                     fill:'rgba(255,255,255,1)',
+                    strokeWidth: 3,
                     filled: true})
                 } else if(objectType=="circle") {
                     object = new fabric.Ellipse({
                     top:256,left:256,rx:50,ry:50,
                     originX:'center',originY:'center',
-                    fill:"rgba(255,255,255,1)",filled:true})
+                    fill:"rgba(255,255,255,1)",
+                    strokeWidth: 3,
+                    filled:true})
                 } else if(objectType=="triangle") {
                     object = new fabric.Polygon([
                         { x: 70, y: 0},
                         { x: 0, y: 120},
                         { x: 140, y: 120},
                         ],{
-                        fill:'rgba(255,255,255,1)',filled:true,
+                        fill:'rgba(255,255,255,1)',
+                        strokeWidth: 3,
+                        filled:true,
                         hasControls: false,
                     })
                 } else if(objectType=="text") {
