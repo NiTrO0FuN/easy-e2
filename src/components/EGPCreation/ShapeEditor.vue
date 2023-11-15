@@ -39,9 +39,10 @@
         <q-separator v-if="isText" dark inset spaced />
         <div v-if="isText" class="row items-center justify-between text-white">
             {{$t("alignment")}}
-            <div class="row justify-around col-grow items-center">
+            <div class="row justify-evenly col-grow items-center">
                 <q-option-group class="text-align-wrapper" dark dense v-model="originX" :options="hAlign" color="primary" inline @update:model-value="this.$emit('change-selected')"/>
                 <q-option-group class="text-align-wrapper" dark dense v-model="originY" :options="vAlign" color="primary" @update:model-value="this.$emit('change-selected')"/>
+                <q-input dark debounce="200" filled style="max-width: 150px;" v-model.number="fontSize" type="number" :label="$t('fontSize')" @update:model-value="this.$emit('change-selected')"/>
             </div>
         </div>
         <q-separator dark inset spaced />
@@ -150,6 +151,15 @@ export default {
             set (value) {
                 if(!this.shape){return}
                 this.shape.set("strokeWidth",value)
+            }
+        },
+        fontSize: {
+            get () {
+                return this.shape.fontSize
+            },
+            set (value) {
+                if(!this.shape){return}
+                this.shape.set("fontSize",value)
             }
         },
         rx: {

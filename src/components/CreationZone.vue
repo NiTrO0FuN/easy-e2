@@ -54,7 +54,7 @@ export default {
         refreshCanva(dirty) {
             if(dirty) {this.selectedShape.set("dirty",true)}
             this.$refs.canva.refreshCanva()
-            this.selectedShape.set("dirty",false)
+            if(dirty){this.selectedShape.set("dirty",false)}
             this.refreshCode(this.$refs.canva.canvas.getObjects())
         },
         refreshCode(shapes) {

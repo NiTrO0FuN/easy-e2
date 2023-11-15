@@ -95,6 +95,9 @@
                         top: 0, left:0,
                         fill: 'rgba(255,255,255,1)',
                         filled: true,
+                        fontSize: 20,
+                        fontFamily: "Tahoma",
+                        fontWeigth: "bold",
                         hasControls: false,
                         }
                     )
