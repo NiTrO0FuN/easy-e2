@@ -109,12 +109,15 @@ if(first() | duped() | dupefinished()) {
             if(shape.angle) {
               text+=`
     EGP:egpAngle(${i+1},${shape.angle})`
-            }
+            } //Size
             if(shape.strokeWidth && shape.strokeWidth>1 && !shape.filled) {
               text+=`
     EGP:egpSize(${i+1},${shape.strokeWidth})`
             }
-
+            if(shape.fontSize) {
+              text+=`
+    EGP:egpSize(${i+1},${shape.fontSize})`
+            }
           }
 
             
