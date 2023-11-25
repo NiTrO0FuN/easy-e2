@@ -1,6 +1,6 @@
 <template>
 <div class="row justify-center">
-    <div v-if="shape" class="container column" style="width: 500px; margin-left: 6px; margin-top: 20px;">
+    <div class="container column" style="width: 500px; margin-top: 20px;">
         <div class="row items-center justify-between text-white">
             {{$t("position")}}
             <q-tooltip class="bg-accent text-body2">{{$t("editor.moveshift")}}</q-tooltip>

@@ -11,6 +11,9 @@ export default {
             copied: "Code copied to clipboard",
             copy: "Copy code to clipboard"
         },
+        canva_select: {
+            screenX: "Screen n°"
+        },
         shapes: {
             rectangle: "Rectangle",
             circle: "Circle",
@@ -48,6 +51,9 @@ export default {
             generated_code: "Code généré",
             copied: "Code copié dans le presse-papiers",
             copy: "Copier le code dans le presse-papiers"
+        },
+        canva_select: {
+            screenX: "Écran n°"
         },
         shapes: {
             rectangle: "Rectangle",

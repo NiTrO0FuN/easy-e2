@@ -3,12 +3,14 @@
         <q-menu touch-position class="bg-primary">
             <q-list style="min-width: 100px">
                 <template v-for="(feature, index) in features">
-                    <q-item  v-close-popup>
+                    <q-item v-close-popup>
                         <q-item-section>
                             <q-item-label class="text-white">{{$t("features."+feature.feature)}}</q-item-label>
                         </q-item-section>
                         <q-item-section v-if="feature.isNew" side top>
-                            <q-badge color="accent" :label="$t('features.new')" />
+                            <q-badge color="accent" :label="$t('features.new')">
+                                <q-icon name="whatshot" class="q-ml-xs"/>
+                            </q-badge>
                         </q-item-section>
                       </q-item>
                       <q-separator v-if="index < features.length-1" inset />
