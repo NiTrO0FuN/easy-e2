@@ -49,7 +49,7 @@ hljs.registerLanguage('javascript', javascript);
   export default {
     name: "CodeShower",
     props: {
-      shapes: {
+      screensContent: {
         type: Array,
         default: []
       },
@@ -66,67 +66,71 @@ hljs.registerLanguage('javascript', javascript);
 `@name EasyEGP
 @inputs EGP:wirelink
 
-if(first() | duped() | dupefinished()) {
+if(first() | duped() | dupefinished()) {`
   
-  function drawEGP() {
+for(screen in this.screensContent) {
+  let shapes = this.screensContent[screen]
+  text +=`
+  function drawScreen${screen}() {
     EGP:egpClear()`
           
-          for(let i=0; i<this.shapes.length; i++) {
-            let shape = this.shapes[i]
-            let fillColor = colors.textToRgb(shape.fill)
-            let strokeColor = colors.textToRgb(shape.stroke ? shape.stroke : "rgba(0,0,0,0)") 
-            text+="\n"
-            if (shape.type == "rect") { // Box
-              text+=`
+  for(let i=0; i<shapes.length; i++) {
+    let shape = shapes[i]
+    let fillColor = colors.textToRgb(shape.fill)
+    let strokeColor = colors.textToRgb(shape.stroke ? shape.stroke : "rgba(0,0,0,0)") 
+    text+="\n"
+    if (shape.type == "rect") { // Box
+      text+=`
     EGP:egpBox${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.width+(!shape.filled?shape.strokeWidth:0)},${shape.height+(!shape.filled?shape.strokeWidth:0)}))`
-            } else if (shape.type == "ellipse") { // Circle
-              text+=`
+    } else if (shape.type == "ellipse") { // Circle
+      text+=`
     EGP:egpCircle${shape.filled ? "" :"Outline"}(${i+1},vec2(${shape.left},${shape.top}),vec2(${shape.rx+(!shape.filled?shape.strokeWidth:0)},${shape.ry+(!shape.filled?shape.strokeWidth:0)}))`
-            } else if (shape.type == "polygon") { // Polygon
-              text+=`
+    } else if (shape.type == "polygon") { // Polygon
+      text+=`
     EGP:egpPoly(${i+1}`
-                shape.points.forEach(point => {
-                  text+=`, vec2(${shape.left + point.x},${shape.top + point.y})`
-                });
-                text+=")"
-            } else if (shape.type == "i-text") {
-              text+=`
+    shape.points.forEach(point => {
+      text+=`, vec2(${shape.left + point.x},${shape.top + point.y})`
+    });
+    text+=")"
+    } else if (shape.type == "i-text") {
+      text+=`
     EGP:egpText(${i+1},"${shape.text}",vec2(${shape.left},${shape.top}))`
-              if (shape.originX!="left" || shape.originY!="top") {
-                text+=`
-    EGP:egpAlign(${i+1},${shape.originX=="left"?0:shape.originX=="center"?1:2},${shape.originY=="top"?0:shape.originY=="center"?1:2})`
-              }
-            }
+      //Align
+      if (shape.originX!="left" || shape.originY!="top") {
+        text+=`
+      EGP:egpAlign(${i+1},${shape.originX=="left"?0:shape.originX=="center"?1:2},${shape.originY=="top"?0:shape.originY=="center"?1:2})`
+      }
+    }
             
-            //Color
-            let color = shape.filled? fillColor : strokeColor
-            if(color.r!=255 || color.g!=255 || color.b!=255 || color.a!=100) {
-              text+=`
+    //Color
+    let color = shape.filled? fillColor : strokeColor
+    if(color.r!=255 || color.g!=255 || color.b!=255 || color.a!=100) {
+      text+=`
     EGP:egpColor(${i+1},vec4(${color.r},${color.g},${color.b},${Math.round(color.a * 2.55)}))`
-            }
+    }
 
-            //Angle
-            if(shape.angle) {
-              text+=`
+    //Angle
+    if(shape.angle) {
+      text+=`
     EGP:egpAngle(${i+1},${shape.angle})`
-            } //Size
-            if(shape.strokeWidth && shape.strokeWidth>1 && !shape.filled) {
-              text+=`
+    } //Size
+    if(shape.strokeWidth && shape.strokeWidth>1 && !shape.filled) {
+      text+=`
     EGP:egpSize(${i+1},${shape.strokeWidth})`
-            }
-            if(shape.fontSize) {
-              text+=`
+    }
+    if(shape.fontSize) {
+      text+=`
     EGP:egpSize(${i+1},${shape.fontSize})`
-            }
-          }
-
-            
-
-        text +=
-`
+    }
   }
 
-  drawEGP()
+  text +=`
+  }`
+}
+
+text+=`
+
+  drawScreen0()
 }
 `     
           return text

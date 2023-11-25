@@ -51,6 +51,8 @@
             })
             this.canvas.on("object:moving",function(o) {
                 let t = o.target
+                t.top = Math.round(t.top);
+                t.left = Math.round(t.left);
                 let step = 512/8
                 if(o.e.shiftKey) {
                     t.set({

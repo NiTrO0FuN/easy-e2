@@ -1,15 +1,15 @@
 <template>
     <div style="overflow: hidden;" class="col-grow row justify-around items-center">
-      <CreationZone @object-list-updated="(s) => {shapes=s}"/>
+      <CreationZone @object-list-updated="(c) => {canvasContent=c}"/>
       <Transition>
-        <CodeShower v-if="showCode" :shapes="shapes" @close="showCode=false"/>
+        <CodeShower v-if="showCode" :screensContent="canvasContent" @close="showCode=false"/>
       </Transition>
       <q-btn v-if="!showCode" round size="lg" icon="code" color="accent" style="position: fixed; right: 20px;" @click="showCode=true"/>
     </div>
     
-  </template>
+</template>
   
-  <script>
+<script>
   import CodeShower from '@/components/CodeShower.vue';
   import CreationZone from '@/components/CreationZone.vue';
   
@@ -18,19 +18,14 @@
       data() {
         return {
           showCode: true,
+          canvasContent: [],
         }
-      },
-      props: {
-        shapes: {
-          type: Array,
-          default: []
-        },
       },
       components: { CodeShower, CreationZone }
   }
-  </script>
+</script>
   
-  <style>
+<style scoped>
   .v-enter-from,
   .v-leave-to {
     opacity: 0;
@@ -45,5 +40,4 @@
   .v-leave-active {
     transition: all 1s ease;
   }
-  
-  </style>
+</style>
