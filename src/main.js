@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import './style.css'
 import App from './App.vue'
 import { Quasar, Notify } from 'quasar'
@@ -14,12 +15,13 @@ import { createI18n } from 'vue-i18n'
 import messages from './localisation/loc'
 
 const i18n = createI18n({
-  locale: 'fr', // set locale
+  locale: navigator.language.split("-")[0], // set locale
   fallbackLocale: 'en', // set fallback locale
   messages,
 })
 
 const myApp = createApp(App)
+const pinia = createPinia()
 
 myApp.use(Quasar, {
     plugins: {Notify}, // import Quasar plugins and add here
@@ -27,6 +29,7 @@ myApp.use(Quasar, {
   })
   
 myApp.use(router)
+myApp.use(pinia)
 
 myApp.use(i18n)
 
