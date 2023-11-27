@@ -5,6 +5,8 @@ export default {
             f1: "Shape editor",
             f2: "Change shape order",
             f3: "Add text",
+            f4: "Multiple screens",
+            f5: "Add actions",
         },
         code_shower: {
             generated_code: "Generated code",
@@ -12,7 +14,7 @@ export default {
             copy: "Copy code to clipboard"
         },
         canva_select: {
-            screenX: "Screen n°"
+            screenX: "Screen no."
         },
         shapes: {
             rectangle: "Rectangle",
@@ -28,6 +30,28 @@ export default {
             sendtoback: "Send to back",
             unselect: "Unselect"
         },
+        actions: {
+            title: "Actions",
+            add: "Add an action",
+            addtip: "Add a new action that will be executed when the object is pressed",
+            added: "Action added",
+            noActions: "No actions",
+            removeObjctNbr: "Remove object with index:",
+            changeTextNbr: "Change the text at index:",
+            changeTextTo: "Remplace text with:",
+            moveObjctNbr: "Move object with index:",
+            newPos: "New object position",
+            gotoScreen: "Goto to screen no.",
+            type: {
+                remove: "Remove an objet",
+                changeText: "Change object text content",
+                move: "Move an object",
+                switchScreen: "Switch screen",
+            },
+        },
+        objectX: "Object no.",
+        add: "Add",
+        newText: "New text",
         position: "Position",
         points: "Points",
         size: "Size",
@@ -46,6 +70,8 @@ export default {
             f1: "Editeur de formes",
             f2: "Changer l'ordre des objects",
             f3: "Ajouter du texte",
+            f4: "Écrans multiples",
+            f5: "Ajouter des actions",
         },
         code_shower: {
             generated_code: "Code généré",
@@ -69,6 +95,28 @@ export default {
             sendtoback: "Envoyer à l'arrière plan",
             unselect: "Désélectionner"
         },
+        actions: {
+            title: "Actions",
+            add: "Ajouter une action",
+            addtip: "Ajoute une action qui sera executée quand on appuyera sur l'objet",
+            added: "Action ajoutée",
+            noActions: "Aucune action",
+            removeObjctNbr: "Enlever l'object avec l'indice:",
+            changeTextNbr: "Changer le texte à l'indice:",
+            changeTextTo: "Remplacer le texte par:",
+            moveObjctNbr: "Déplacer l'objet à l'indice:",
+            newPos: "Nouvelle position de l'objet",
+            gotoScreen: "Aller sur l'écran n°",
+            type: {
+                remove: "Enlever un objet",
+                changeText: "Change le contenu d'un texte",
+                move: "Bouger un objet",
+                switchScreen: "Changer d'écran",
+            },
+        },
+        objectX: "Objet n°",
+        add: "Ajouter",
+        newText: "Nouveau texte",
         position: "Position",
         points: "Points",
         size: "Taille",

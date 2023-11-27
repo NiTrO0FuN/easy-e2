@@ -1,10 +1,10 @@
 <template>
     <div style="overflow: hidden;" class="col-grow row justify-around items-center">
-      <CreationZone @object-list-updated="(c) => {canvasContent=c}"/>
+      <CreationZone/>
       <Transition>
-        <CodeShower v-if="showCode" :screensContent="canvasContent" @close="showCode=false"/>
+        <CodeShower v-if="showCode" @close="showCode=false"/>
       </Transition>
-      <q-btn v-if="!showCode" round size="lg" icon="code" color="accent" style="position: fixed; right: 20px;" @click="showCode=true"/>
+      <q-btn v-if="!showCode" round size="lg" icon="code" color="accent" style="position: fixed; top:50%;right: 20px;" @click="showCode=true"/>
     </div>
     
 </template>
@@ -18,7 +18,6 @@
       data() {
         return {
           showCode: true,
-          canvasContent: [],
         }
       },
       components: { CodeShower, CreationZone }

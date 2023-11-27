@@ -41,6 +41,6 @@
 }
 
 .addcolumn > .q-btn:not(:last-child) {
-    margin-bottom: 15px !important;
+    margin-bottom: 15px;
 }
 </style>
