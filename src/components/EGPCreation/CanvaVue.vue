@@ -72,14 +72,18 @@
                     originX:'center',originY:'center',
                     fill:'rgba(255,255,255,1)',
                     strokeWidth: 3,
-                    filled: true})
+                    filled: true,
+                    actions: []
+                })
                 } else if(objectType=="circle") {
                     object = new fabric.Ellipse({
                     top:256,left:256,rx:50,ry:50,
                     originX:'center',originY:'center',
                     fill:"rgba(255,255,255,1)",
                     strokeWidth: 3,
-                    filled:true})
+                    filled:true,
+                    actions: []
+                })
                 } else if(objectType=="triangle") {
                     object = new fabric.Polygon([
                         { x: 70, y: 0},
@@ -91,6 +95,7 @@
                         filled:true,
                         hasControls: false,
                         objectCaching: false,
+                        actions: []
                     })
                 } else if(objectType=="text") {
                     object = new fabric.IText("EGP", {

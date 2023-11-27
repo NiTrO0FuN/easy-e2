@@ -1,6 +1,7 @@
 <template>
-<div class="row justify-center">
-    <div class="container column" style="width: 500px; margin-top: 20px;">
+<div class="column items-center">
+    <div class="container column relative-position" style="width: 500px; margin-top: 20px;">
+        <q-badge floating color="accent">{{$t("objectX")+(screensObjects[activeCanva].indexOf(shape)+1)}}</q-badge>
         <div class="row items-center justify-between text-white">
             {{$t("position")}}
             <q-tooltip class="bg-accent text-body2">{{$t("editor.moveshift")}}</q-tooltip>
@@ -60,10 +61,16 @@
             </q-input>
         </div> 
     </div>
+    <Actions v-if="shape.actions && shape.filled" :shape="shape"/>
 </div>
 </template>
 
 <script>
+import { mapState } from 'pinia'
+import { useScreensStore } from '@/stores/screensObjects'
+
+import Actions from './Actions.vue'
+
 export default {
     name:"ShapeEditor",
     data() {
@@ -87,6 +94,7 @@ export default {
         },
     },
     computed: {
+        ...mapState(useScreensStore, ['screensObjects','activeCanva']),
         hasSize() {
             return this.shape.type == "rect" 
         },
@@ -201,6 +209,7 @@ export default {
             }
         }, 
     },
+    components: {Actions},
 }
 </script>
 

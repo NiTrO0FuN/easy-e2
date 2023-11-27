@@ -43,35 +43,35 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 import 'highlight.js/styles/atom-one-dark.css'
 import { colors } from 'quasar'
+import { mapState } from 'pinia'
+import { useScreensStore } from '@/stores/screensObjects'
 
 hljs.registerLanguage('javascript', javascript);
 
   export default {
     name: "CodeShower",
-    props: {
-      screensContent: {
-        type: Array,
-        default: []
-      },
-    },
     components: {
         highlightjs: hljsVuePlugin.component
     },
     computed: {
-        isWindows() {
-            return navigator.platform.startsWith("Win") 
-        },
-        e2Code() {
-          let text = 
-`@name EasyEGP
-@inputs EGP:wirelink
+      ...mapState(useScreensStore, ['screensObjects']),
+      isWindows() {
+        return navigator.platform.startsWith("Win") 
+      },
+      e2Code() {
 
-if(first() | duped() | dupefinished()) {`
+let text = 
+`@name EasyEGP
+@inputs EGP:wirelink ${this.needUserInteraction() ? "User:entity" : ""}
+@persist ActiveScreen:number
+
+if(first() | duped() | dupefinished()) {
+`
   
-for(screen in this.screensContent) {
-  let shapes = this.screensContent[screen]
+for(let screenI=0; screenI<this.screensObjects.length; screenI++) {
+  let shapes = this.screensObjects[screenI]
   text +=`
-  function drawScreen${screen}() {
+  function drawScreen${screenI}() {
     EGP:egpClear()`
           
   for(let i=0; i<shapes.length; i++) {
@@ -98,7 +98,7 @@ for(screen in this.screensContent) {
       //Align
       if (shape.originX!="left" || shape.originY!="top") {
         text+=`
-      EGP:egpAlign(${i+1},${shape.originX=="left"?0:shape.originX=="center"?1:2},${shape.originY=="top"?0:shape.originY=="center"?1:2})`
+    EGP:egpAlign(${i+1},${shape.originX=="left"?0:shape.originX=="center"?1:2},${shape.originY=="top"?0:shape.originY=="center"?1:2})`
       }
     }
             
@@ -125,18 +125,82 @@ for(screen in this.screensContent) {
   }
 
   text +=`
-  }`
+  }
+  `
 }
 
 text+=`
+  function drawActiveScreen() {
+    ("drawScreen"+ActiveScreen)()
+  }
 
-  drawScreen0()
+  ActiveScreen = 0
+  drawActiveScreen()
 }
-`     
-          return text
+` 
+if(this.needUserInteraction()) {
+  text+=`
+if(~User & User) {
+  local Cursor = EGP:egpCursor(User)
+  `
+  let firstScreen = true
+  for(let screenI=0; screenI<this.screensObjects.length; screenI++) {
+    if(!this.needUserInteraction(screenI)) {continue}
+    text+=`
+  ${firstScreen ? "" : "else"}if(ActiveScreen==${screenI}) {`
+    firstScreen = false
+    let firstShape = true
+    for(let shapeI=0; shapeI<this.screensObjects[screenI].length; shapeI++) {
+      let shape = this.screensObjects[screenI][shapeI]
+      if(!shape.actions || shape.actions.length==0 || !shape.filled) {continue}
+      text+=`
+    ${firstShape ? "" : "else"}if(EGP:egpObjectContainsPoint(${shapeI+1},Cursor)) {`
+      firstShape = false
+      for(let action of shape.actions) {
+        if(action.type == "remove") {
+          text+=`
+      EGP:egpRemove(${action.removeObjctNbr})`
+        } else if(action.type == "changeText") {
+          text+=`
+      EGP:egpSetText(${action.objIndex},"${action.newText}")`
+        } else if(action.type == "move") {
+          text+=`
+      EGP:egpPos(${action.objIndex},vec2(${action.left},${action.top}))`
+        } else if(action.type == "switchScreen") {
+          text+=`
+      ActiveScreen = ${action.gotoScreen-1}
+      drawActiveScreen()`
         }
+      }
+      text+=`
+    }`
+    }
+    text+=`
+  }`
+  }
+
+  text+=`
+}`
+
+}
+return text
+}
     },
     methods: {
+      needUserInteraction(i) {
+        if(i!=null) {
+          for(let shape of this.screensObjects[i]) {
+            if(shape.actions && shape.actions.length>0 && shape.filled) {return true}
+          }
+        } else {
+          for(let screen of this.screensObjects) {
+            for(let shape of screen) {
+              if(shape.actions && shape.actions.length>0 && shape.filled) {return true}
+            }
+          }
+        }
+        return false
+      },
       copyCodeToClipboard() {
         navigator.clipboard.writeText(this.e2Code);
         this.$q.notify({
@@ -156,7 +220,7 @@ text+=`
 /* Hide scrollbar for IE, Edge and Firefox */
 .code {
     min-width: 40%;
-    max-height: 70%;
+    max-height: 70vh;
     overflow-y: scroll;
     border-radius: 15px !important;
     box-shadow:0px 5px 20px  black !important;

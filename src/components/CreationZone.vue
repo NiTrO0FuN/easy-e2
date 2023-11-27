@@ -1,7 +1,7 @@
 <template>
     <div class="column">
         <TransitionGroup name="workspace">
-            <CanvaSwitcher key="canvaswitcher" :canvasList="canvasContent" :canvaIndex="activeCanva" :style="'margin-right:' + (selectedShape ? '0' : '70px')"
+            <CanvaSwitcher key="canvaswitcher" :canvasList="screensObjects" :canvaIndex="activeCanva" :style="'margin-right:' + (selectedShape ? '0' : '70px')"
             @next="nextCanva" @prev="prevCanva" @add="addCanva"/>
             <div class="row" key="canva">
                 <ShapeOrder v-if="selectedShape" @move="moveSelectedShape" @unselect-shape="deselectShape"/>
@@ -14,39 +14,44 @@
 </template>
 
 <script>
+import { mapState, mapWritableState } from 'pinia'
+import { useScreensStore } from '@/stores/screensObjects'
+
 import CanvaSwitcher from './EGPCreation/CanvaSwitcher.vue';
-import CanvaVue from './EGPCreation/CanvaVue.vue';
-import ShapeEditor from './EGPCreation/ShapeEditor.vue';
 import ShapeOrder from './EGPCreation/ShapeOrder.vue';
+import CanvaVue from './EGPCreation/CanvaVue.vue';
 import ShapeCreator from './EGPCreation/ShapeCreator.vue';
+import ShapeEditor from './EGPCreation/ShapeEditor.vue';
 
 export default {
     name: "CreationZone",
     data() {
         return {
             selectedShape: null,
-            canvasContent: [],
-            activeCanva: 0
         }
+    },
+    computed: {
+        ...mapState(useScreensStore, ['screensObjects']),
+        ...mapWritableState(useScreensStore, ['activeCanva'])
     },
     methods: {
         prevCanva() {
             if(this.activeCanva<=0) {return}
             this.deselectShape()
-            this.canvasContent[this.activeCanva--] == this.$refs.canva.canvas.getObjects()
-            this.$refs.canva.canvas._objects = this.canvasContent[this.activeCanva]
+            this.screensObjects[this.activeCanva--] == this.$refs.canva.canvas.getObjects()
+            this.$refs.canva.canvas._objects = this.screensObjects[this.activeCanva]
             this.refreshCanva()
         },
         nextCanva() {
-            if(this.activeCanva>=this.canvasContent.length-1) {return}
+            if(this.activeCanva>=this.screensObjects.length-1) {return}
             this.deselectShape()
-            this.canvasContent[this.activeCanva] = this.$refs.canva.canvas.getObjects()
-            this.$refs.canva.canvas._objects = this.canvasContent[++this.activeCanva]
+            this.screensObjects[this.activeCanva] = this.$refs.canva.canvas.getObjects()
+            this.$refs.canva.canvas._objects = this.screensObjects[++this.activeCanva]
             this.refreshCanva()
         },
         addCanva() {
-            if (this.canvasContent.length >= 5) {return}
-            this.canvasContent.push([])
+            if (this.screensObjects.length >= 10) {return}
+            this.screensObjects.push([])
             this.nextCanva()  
         },
         addShape(shape) {
@@ -62,7 +67,7 @@ export default {
         removeSelectedShape() {
             if(!this.selectedShape){return}
             this.$refs.canva.canvas.remove(this.selectedShape)
-            this.refreshCode(this.$refs.canva.canvas.getObjects())
+            this.refreshCode()
         },
         moveSelectedShape(command) {
             if(!this.selectedShape){return}
@@ -75,7 +80,7 @@ export default {
             } else if (command=="sendtoback") {
                 this.selectedShape.sendToBack()
             }
-            this.refreshCode(this.$refs.canva.canvas.getObjects())
+            this.refreshCode()
         },
         refreshCanva(dirty) {
             if(dirty) {this.selectedShape.set("dirty",true)}
@@ -84,20 +89,19 @@ export default {
             this.refreshCode()
         },
         refreshCode() {
-            this.canvasContent[this.activeCanva] = this.$refs.canva.canvas.getObjects()
-            this.$emit("object-list-updated",this.canvasContent)
+            this.screensObjects[this.activeCanva] = this.$refs.canva.canvas.getObjects()
         }
     },
     mounted () {
-        this.canvasContent[this.activeCanva] = this.$refs.canva.canvas.getObjects()
+        this.refreshCode()
     },
-    components: { CanvaSwitcher,CanvaVue, ShapeEditor, ShapeOrder, ShapeCreator }
+    components: { CanvaSwitcher, ShapeOrder, CanvaVue, ShapeEditor, ShapeCreator}
 }
 </script>
 
 <style scoped>
 .workspace-move {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 .workspace-enter-from,
   .workspace-leave-to {
@@ -111,7 +115,7 @@ export default {
   }
   .workspace-enter-active,
   .workspace-leave-active {
-    transition: all 1s ease;
+    transition: all 0.5s ease;
   }
   .workspace-leave-active {
     position: absolute;
