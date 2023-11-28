@@ -9,7 +9,7 @@ Automatically deployed on: https://nitro0fun.github.io/easy-e2/
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/NiTrO0FuN/easy-e2/build.yml)](https://github.com/NiTrO0FuN/easy-e2/deployments)
+[![Build status](https://img.shields.io/github/actions/workflow/status/NiTrO0FuN/easy-e2/build.yml)](https://github.com/NiTrO0FuN/easy-e2/actions/workflows/build.yml)
 
 ## Walkthrough
 ### 1- Online
