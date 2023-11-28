@@ -178,11 +178,13 @@ if(~User & User) {
     text+=`
   }`
   }
-
   text+=`
 }`
-
 }
+text+=`
+if(~EGP) {
+    drawActiveScreen()
+}`
 return text
 }
     },
