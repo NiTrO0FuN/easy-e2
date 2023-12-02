@@ -94,7 +94,7 @@ for(let screenI=0; screenI<this.screensObjects.length; screenI++) {
     text+=")"
     } else if (shape.type == "i-text") {
       text+=`
-    EGP:egpText(${i+1},"${shape.text}",vec2(${shape.left},${shape.top}))`
+    EGP:egpText(${i+1},${this.needEncoding(shape.text) ? 'httpUrlDecode("'+encodeURI(shape.text)+'")': '"'+shape.text+'"'},vec2(${shape.left},${shape.top}))`
       //Align
       if (shape.originX!="left" || shape.originY!="top") {
         text+=`
@@ -202,6 +202,9 @@ return text
           }
         }
         return false
+      },
+      needEncoding(text) {
+        return text != encodeURI(text)
       },
       copyCodeToClipboard() {
         navigator.clipboard.writeText(this.e2Code);
