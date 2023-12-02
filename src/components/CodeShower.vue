@@ -159,7 +159,7 @@ if(~User & User) {
       for(let action of shape.actions) {
         if(action.type == "remove") {
           text+=`
-      EGP:egpRemove(${action.removeObjctNbr})`
+      EGP:egpRemove(${action.objIndex})`
         } else if(action.type == "changeText") {
           text+=`
       EGP:egpSetText(${action.objIndex},"${action.newText}")`
