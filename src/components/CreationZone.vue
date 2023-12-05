@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapWritableState } from 'pinia'
+import { mapState, mapWritableState, mapActions } from 'pinia'
 import { useScreensStore } from '@/stores/screensObjects'
 
 import CanvaSwitcher from './EGPCreation/CanvaSwitcher.vue';
@@ -31,10 +31,11 @@ export default {
         }
     },
     computed: {
-        ...mapState(useScreensStore, ['screensObjects']),
+        ...mapState(useScreensStore, ['screensObjects', 'objectsCount']),
         ...mapWritableState(useScreensStore, ['activeCanva'])
     },
     methods: {
+        ...mapActions(useScreensStore, {resetScreenStore: '$reset' }),
         prevCanva() {
             if(this.activeCanva<=0) {return}
             this.deselectShape()
@@ -90,10 +91,69 @@ export default {
         },
         refreshCode() {
             this.screensObjects[this.activeCanva] = this.$refs.canva.canvas.getObjects()
-        }
+        },
+        saveToLocal() {
+            //Don't save if no changes
+            if (JSON.stringify(this.screensObjects) == localStorage.getItem("egpSave")) {return}
+            //Don't save if nothing to save
+            if (this.objectsCount == 0) {return}
+            localStorage.setItem("egpSave", JSON.stringify(this.screensObjects))
+            this.$q.notify({
+                color: "positive",
+                icon: "save",
+                position: "top-left",
+                timeout: 1000
+            })
+        },
+        loadFromLocal() {
+            if (!localStorage.getItem("egpSave")) {return}
+            let parsedScreens;
+            try {
+                parsedScreens = JSON.parse(localStorage.getItem("egpSave"))
+            } catch (error) {
+                this.$q.notify({
+                    type: "negative",
+                    message: this.$t("save.error_load")
+                })
+                localStorage.removeItem("egpSave")
+                return
+            }
+            if (this.selectedShape) {this.deselectShape()}
+            this.resetScreenStore()
+            parsedScreens.forEach(screen => {
+                let objects = []
+                screen.forEach(obj => {
+                    let parsedObject = this.$refs.canva.createObject(obj)
+                    this.$refs.canva.canvas.add(parsedObject)
+                    objects.push(parsedObject)
+                });
+                this.screensObjects.push(objects)
+            });
+            this.$refs.canva.canvas._objects = this.screensObjects[this.activeCanva]
+            this.$refs.canva.refreshCanva()
+            this.$q.notify({
+                type: "positive",
+                message: this.$t("save.success_load")
+            })
+        },
     },
     mounted () {
         this.refreshCode()
+        //Load previous save
+        if(localStorage.getItem("egpSave")) {
+            this.$q.notify({
+                color: "info",
+                message: this.$t("save.found"),
+                icon: "save",
+                progress: true,
+                progressClass: "saveProgress",
+                timeout: 10*1000, //10 sec to choose
+                actions: [{icon: "done", handler: this.loadFromLocal},
+                {icon: "close", color: "negative"}]
+            })
+        }
+        //Auto save every minute if needed
+        setInterval(this.saveToLocal, 1*60*1000)
     },
     components: { CanvaSwitcher, ShapeOrder, CanvaVue, ShapeEditor, ShapeCreator}
 }

@@ -27,10 +27,10 @@
         data() {
             return {
                 features: [
-                    {feature:"f2",isNew:false},
                     {feature:"f3",isNew:false},
-                    {feature:"f4",isNew:true},
+                    {feature:"f4",isNew:false},
                     {feature:"f5",isNew:true},
+                    {feature:"f6",isNew:true},
                 ]
             }
         },    

@@ -7,6 +7,7 @@ export default {
             f3: "Add text",
             f4: "Multiple screens",
             f5: "Add actions",
+            f6: "Automatic backups",
         },
         code_shower: {
             generated_code: "Generated code",
@@ -63,6 +64,11 @@ export default {
         thickness: "Epaisseur",
         color: "Color",
         fill: "Fill",
+        save : {
+            found: "A previous save was found, would you like to load it?",
+            error_load: "An error happened loading the previous save.",
+            success_load: "The previous save has been loaded successfully."
+        },
     },
     fr: {
         features : {
@@ -72,6 +78,7 @@ export default {
             f3: "Ajouter du texte",
             f4: "Écrans multiples",
             f5: "Ajouter des actions",
+            f6: "Sauvegardes automatiques",
         },
         code_shower: {
             generated_code: "Code généré",
@@ -128,5 +135,10 @@ export default {
         thickness: "Epaisseur",
         color: "Couleur",
         fill: "Remplir",
+        save : {
+            found: "Une sauvegarde a été trouvée, voulez vous l'utiliser?",
+            error_load: "Une erreur est survenue lors du chargement de la précédente sauvegarde.",
+            success_load: "La sauvegarde a été chargée avec succès."
+        },
     }
 }

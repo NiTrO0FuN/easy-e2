@@ -61,63 +61,36 @@
                     })
                 }
             })
+            this.canvas.on("object:scaling", function(o) {
+                let t = o.target
+                t.top = Math.round(t.top);
+                t.left = Math.round(t.left);
+            })
         },
         methods: {
-            addObject(objectType) {
-                if(this.canvas.getObjects().length>=300){return}
-                var object
-                if(objectType=="rectangle") {
-                    object = new fabric.Rect({
-                    top:256,left:256,width:100,height:100, 
-                    originX:'center',originY:'center',
-                    fill:'rgba(255,255,255,1)',
-                    strokeWidth: 3,
-                    filled: true,
-                    actions: []
-                })
-                } else if(objectType=="circle") {
-                    object = new fabric.Ellipse({
-                    top:256,left:256,rx:50,ry:50,
-                    originX:'center',originY:'center',
-                    fill:"rgba(255,255,255,1)",
-                    strokeWidth: 3,
-                    filled:true,
-                    actions: []
-                })
-                } else if(objectType=="triangle") {
-                    object = new fabric.Polygon([
-                        { x: 70, y: 0},
-                        { x: 0, y: 120},
-                        { x: 140, y: 120},
-                        ],{
-                        fill:'rgba(255,255,255,1)',
-                        strokeWidth: 3,
-                        filled:true,
-                        hasControls: false,
-                        objectCaching: false,
-                        actions: []
-                    })
-                } else if(objectType=="text") {
-                    object = new fabric.IText("EGP", {
-                        top: 0, left:0,
-                        fill: 'rgba(255,255,255,1)',
-                        filled: true,
-                        fontSize: 20,
-                        fontFamily: "Tahoma",
-                        fontWeigth: "bold",
-                        hasControls: false,
-                        }
-                    )
+            createObject(options) {
+                let object;
+                if (options.type == "rect") {
+                    object = new fabric.Rect(options)
+                } else if (options.type == "ellipse") {
+                    object = new fabric.Ellipse(options)
+                } else if (options.type == "polygon") {
+                    object = new fabric.Polygon(options.points, options)
+                } else if (options.type == "i-text") {
+                    object = new fabric.IText(options.text, options)
                 }
+                object.toObject = function() {
+                    return fabric.util.object.extend(object.toObject.call(this), {
+                        ...(this.actions? {actions: this.actions}: {}),
+                        filled: this.filled,
+                        hasControls: this.hasControls,
+                    });
+                };
                 let self = this
                 object.on("selected", function() {
                     object.top = Math.round(object.top);
                     object.left = Math.round(object.left);
                     self.$emit("shape-selected",object)
-                })
-                object.on("scaling", function() {
-                    object.top = Math.round(object.top);
-                    object.left = Math.round(object.left);
                 })
                 object = reactive(object)
                 this.$watch(() => object.filled, function() {
@@ -130,7 +103,58 @@
                     }
                     this.refreshCanva()
                 })
-                
+                return object
+            },
+            addObject(objectType) {
+                if(this.canvas.getObjects().length>=300){return}
+                var object
+                if(objectType=="rectangle") {
+                    object = this.createObject({
+                        type: "rect",
+                        top: 256, left: 256, width: 100, height: 100, 
+                        originX:'center',originY:'center',
+                        fill:'rgba(255,255,255,1)',
+                        strokeWidth: 3,
+                        filled: true,
+                        actions: []
+                    })
+                } else if(objectType=="circle") {
+                    object = this.createObject({
+                        type: "ellipse",
+                        top: 256, left: 256, rx: 50, ry: 50,
+                        originX:'center',originY:'center',
+                        fill:"rgba(255,255,255,1)",
+                        strokeWidth: 3,
+                        filled:true,
+                        actions: []
+                    })
+                } else if(objectType=="triangle") {
+                    object = this.createObject({
+                        type: "polygon",
+                        points: [{ x: 70, y: 0},
+                        { x: 0, y: 120},
+                        { x: 140, y: 120}],
+                        fill:'rgba(255,255,255,1)',
+                        strokeWidth: 3,
+                        filled:true,
+                        hasControls: false,
+                        objectCaching: false,
+                        actions: []
+                    })
+                } else if(objectType=="text") {
+                    object = this.createObject({
+                        type: "i-text",
+                        text: "EGP",
+                        top: 0, left:0,
+                        fill: 'rgba(255,255,255,1)',
+                        filled: true,
+                        fontSize: 20,
+                        fontFamily: "Tahoma",
+                        fontWeigth: "bold",
+                        hasControls: false,
+                        }
+                    )
+                }  
                 this.canvas.add(object)
                 this.updateObjectList()
             },
