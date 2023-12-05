@@ -2,7 +2,7 @@
     <div class="column justify-center">
         <div class="column addcolumn">
             <q-btn v-for="shape in shapes" round color="orange" :icon="shape.icon" @click="this.$emit('add-shape',shape)">
-                <q-tooltip class="bg-secondary text-body1">{{this.$t(shape.name)}}</q-tooltip>
+                <q-tooltip class="bg-secondary text-body1">{{$t(shape.name)}}</q-tooltip>
             </q-btn>
             <q-btn v-if="selectedShape" round class="" color="negative" icon="delete" @click="this.$emit('remove-shape')"/>
         </div>
