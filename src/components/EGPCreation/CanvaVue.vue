@@ -79,13 +79,15 @@
                 } else if (options.type == "i-text") {
                     object = new fabric.IText(options.text, options)
                 }
-                object.toObject = function() {
-                    return fabric.util.object.extend(object.toObject.call(this), {
-                        ...(this.actions? {actions: this.actions}: {}),
-                        filled: this.filled,
-                        hasControls: this.hasControls,
-                    });
-                };
+                object.toObject = (function(toObject) {
+                    return function() {
+                        return fabric.util.object.extend(toObject.call(this), {
+                            ...(this.actions? {actions: this.actions}: {}),
+                            filled: this.filled,
+                            hasControls: this.hasControls,
+                        });
+                    };
+                })(object.toObject)
                 let self = this
                 object.on("selected", function() {
                     object.top = Math.round(object.top);

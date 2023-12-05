@@ -148,7 +148,7 @@ export default {
                 progress: true,
                 progressClass: "saveProgress",
                 timeout: 10*1000, //10 sec to choose
-                actions: [{icon: "done", handler: this.loadFromLocal},
+                actions: [{icon: "done", color: "white", handler: this.loadFromLocal},
                 {icon: "close", color: "negative"}]
             })
         }
