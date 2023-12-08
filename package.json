@@ -22,6 +22,6 @@
     "@quasar/vite-plugin": "^1.6.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "sass": "^1.32.12",
-    "vite": "^4.4.5"
+    "vite": "^4.5.1"
   }
 }
