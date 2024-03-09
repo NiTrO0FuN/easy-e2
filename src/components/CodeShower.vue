@@ -112,7 +112,7 @@ for(let screenI=0; screenI<this.screensObjects.length; screenI++) {
     //Angle
     if(shape.angle) {
       text+=`
-    EGP:egpAngle(${i+1},${shape.angle})`
+    EGP:egpAngle(${i+1},${360-shape.angle})`
     } //Size
     if(shape.strokeWidth && shape.strokeWidth>1 && !shape.filled) {
       text+=`
