@@ -130,11 +130,11 @@ for(let screenI=0; screenI<this.screensObjects.length; screenI++) {
 }
 
 text+=`
+  ActiveScreen = 0
   function drawActiveScreen() {
     ("drawScreen"+ActiveScreen)()
   }
 
-  ActiveScreen = 0
   drawActiveScreen()
 }
 ` 
