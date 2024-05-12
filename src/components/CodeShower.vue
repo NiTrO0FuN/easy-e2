@@ -65,7 +65,7 @@ let text =
 @inputs EGP:wirelink ${this.needUserInteraction() ? "User:entity" : ""}
 @persist ActiveScreen:number
 
-if(first() | duped() | dupefinished()) {
+if(first() | dupefinished()) {
 `
   
 for(let screenI=0; screenI<this.screensObjects.length; screenI++) {
